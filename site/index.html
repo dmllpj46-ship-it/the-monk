@@ -170,13 +170,15 @@
 
   .cover {
     position: relative;
-    justify-self: end;
+    justify-self: center;
     width: 100%;
-    max-width: 430px;
+    max-width: 400px;
+    margin: 0;
   }
 
   .cover img {
     width: 100%;
+    height: auto;
     display: block;
     border: 1px solid var(--line);
     box-shadow: 0 30px 60px -30px rgba(20,18,15,.55);
@@ -483,7 +485,7 @@
 
   @media (max-width: 980px) {
     .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 44px; }
-    .cover { justify-self: start; max-width: 340px; }
+    .cover { justify-self: center; max-width: 320px; }
     .grid { grid-template-columns: repeat(2, 1fr); }
     .character { grid-template-columns: 1fr; }
     .character img { width: 160px; }

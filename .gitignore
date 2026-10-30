@@ -11,6 +11,9 @@ Thumbs.db
 # 临时工作文件（叠字脚本、坐标网格调试图等），见 AGENTS.md「不提交临时脚本」
 /_*
 
+# 生图原图与调试裁图落盘处（成品已复制进 pages/NNN-slug/）
+/vibe_images/
+
 # 密钥与凭据（绝不提交）
 *.pem
 *.key

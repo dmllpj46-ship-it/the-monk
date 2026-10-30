@@ -21,6 +21,7 @@
 the-monk/
 ├── README.md            # 本文件：项目概览 + 进度
 ├── AGENTS.md            # 给 AI 智能体的工作守则
+├── .qoder/skills/       # 仓库专用技能（分镜创作流程 the-monk-storyboard）
 ├── characters/          # 角色：每人一个编号子目录
 │   ├── _template/       # character.md 模板
 │   └── NNN-slug/
@@ -29,8 +30,9 @@ the-monk/
 └── pages/               # 漫画页：每页一个编号子目录
     ├── _template/       # meta.md 模板
     └── NNN-slug/
-        ├── page-NNN.png # 页面图像
-        └── meta.md      # 页面元数据（场景/对白/出场/状态）
+        ├── page-NNN.png        # 页面图像（定稿，已叠字）
+        ├── page-NNN-clean.png  # 无字底图（改文案只重跑叠字，不重新生图）
+        └── meta.md             # 页面元数据（场景/对白/出场/状态）
 ```
 
 ## 命名与编号规则
@@ -58,6 +60,9 @@ the-monk/
 4. 校验一致性 → 对照 `character.md` 核对外貌/服装/能力。
 5. 更新进度 → 回填 README 进度表，提交推送。
 
+> 以上五步的细则（分镜写法、生图提示词四段模板、PIL 叠字脚本、一次性一致性校验）见仓库专用技能
+> [`.qoder/skills/the-monk-storyboard/SKILL.md`](file:///C:/Users/WaterZhong/REPOS-LOCAL/the-monk/.qoder/skills/the-monk-storyboard/SKILL.md)。
+
 ## 当前进度
 
 | 项 | 状态 |
@@ -65,6 +70,7 @@ the-monk/
 | 角色：慧明（主角，占位名） | 设定已建，头像已定 |
 | 页面：001 封面 | 定稿（THE MONK + 朱砂红「因果自渡。」） |
 | 页面：002 石中僧 | 定稿（主角不设禅杖，本页空手即正确画法） |
+| 页面：003 白骨下的经轮 | 定稿（1937·晋北，徒手接刃 + 金刚手印；P5 背影手里多一截断兵器，已知偏差） |
 
 ## 工具链
 

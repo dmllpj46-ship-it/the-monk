@@ -13,10 +13,13 @@ Guidance for AI agents working in this repository.
    核心外貌/服装/标志物不允许擅自改动；确实要改时先更新 `character.md` 并在 `meta.md` 记录。
 2. **编号唯一**：新角色/新页在现有最大编号后递增（`001`、`002`…），**永不复用或跳号**。
 3. **每页必有 `meta.md`**：页面图像生成/修改后必须同步创建或更新 `meta.md`（场景、对白、出场角色、状态）。
-4. **图像文件名固定**：头像 `avatar.png`；页面 `page-NNN.png`（NNN 与目录编号一致）。
+4. **图像文件名固定**：头像 `avatar.png`；页面 `page-NNN.png`（定稿叠字图）+ `page-NNN-clean.png`（无字底图，改文案只重跑叠字脚本）。
 5. **风格基准**：日式漫画；默认黑白线稿（网点、速度线、分格构图），如需彩漫在页面 `meta.md` 中显式标注。
 6. **不泄露凭据**：不把任何 token/密钥写进仓库文件、提交信息或日志；推送走 HTTPS。
 7. **提交可追溯**：git commit message 写明动作对象，如 `feat: 新增角色 002-xx` / `feat: 生成页面 003-xx`。
+8. **一次成图，一次校验**：每页生图默认只调用一次，对照锚点校验一次即继续；不为单个细节反复整页重生成，
+   也不要在深色僧袍等暗部做 clone/中值局部修补（会留亮块）。偏差记进该页 `meta.md` 的「一致性校验」即可。
+9. **细则看技能**：分镜写法、生图提示词模板、PIL 叠字脚本见 `.qoder/skills/the-monk-storyboard/SKILL.md`。
 
 ## 目录结构与命名
 
@@ -26,10 +29,14 @@ Guidance for AI agents working in this repository.
 | `characters/NNN-slug/avatar.png` | 头像（一致性参考图） | 固定名 |
 | `characters/NNN-slug/character.md` | 角色元数据 | 固定名 |
 | `characters/_template/character.md` | 角色元数据模板 | 复制后改名填充 |
-| `pages/NNN-slug/` | 页面目录 | `002-mountain-clash` |
-| `pages/NNN-slug/page-NNN.png` | 页面图像 | 与目录号一致 |
+| `pages/NNN-slug/` | 页面目录 | `003-battlefield` |
+| `pages/NNN-slug/page-NNN.png` | 定稿叠字图，统一 **1696×2544（2:3）** | 与目录号一致 |
+| `pages/NNN-slug/page-NNN-clean.png` | 无字底图（生图原图放大而来） | 与目录号一致 |
 | `pages/NNN-slug/meta.md` | 页面元数据 | 固定名 |
 | `pages/_template/meta.md` | 页面元数据模板 | 复制后改名填充 |
+| `.qoder/skills/the-monk-storyboard/` | 仓库专用技能：一页漫画的完整做法 | 固定名 |
+| `_make_page_NNN.py`（仓库根） | 该页的 PIL 叠字脚本 | **不入库**（`.gitignore` 的 `/_*`） |
+| `vibe_images/` | 生图原图与调试裁图落盘处 | **不入库** |
 
 ## 元数据 schema
 
@@ -54,26 +61,40 @@ Guidance for AI agents working in this repository.
 
 | 字段 | 说明 | 示例 |
 |---|---|---|
-| `页号` | 与目录号一致 | 002 |
+| `页号` | 与目录号一致 | 003 |
 | `类型` | 封面 / 分镜 / 对白页 / 战斗页 / 转场 | 战斗页 |
-| `场景` | 地点与氛围 | 山道，风雪将至 |
-| `时间地点` | 叙事坐标 | 第一章·山路 |
-| `出场角色` | 本页所有角色编号 | 001 |
-| `对白` | 分格对白（含拟声） | 「何方妖孽！」 |
-| `动作/分镜` | 每格镜头与动作 | P1 全景：和尚立于山道，袈裟被风掀动，双手空空 |
-| `叙事节点` | 本页推动的情节 | 妖怪现身，第一场冲突开始 |
-| `状态` | 待生成 / 已生成 / 待审 / 定稿 | 待生成 |
+| `场景` | 地点与氛围 | 华北乡野，焚烧后的村舍与弹坑 |
+| `时间地点` | 叙事坐标；跨时空时写**时空框**文字（画面由 PIL 叠出） | 民国二十六年九月 · 晋北 · 正太路以北 |
+| `出场角色` | 本页所有角色编号（无名敌兵不入角色库） | 001 |
+| `动作/分镜` | 每格「景别 + 一个动作」，默认 5 格纵向 P1…P5 | P2 中景：三兵刺刀直取咽喉，他裸掌掴住刀刃 |
+| `对白` | 单列一节，标注「PIL 叠字，生图阶段画面零文字」；含旁白/内心/拟声/时空框 | 「铛——！」 |
+| `叙事节点` | 本页推动的情节 | 第一次踏入人间战场，立住「不杀之戒」 |
+| `一致性引用` | 本页依赖的角色锚点 | `characters/001-huiming/avatar.png` + `character.md` |
+| `配色` | 黑白为主时的**唯一彩色**要写明 | 黑白网点，唯眉心朱砂红 |
+| `表现尺度` | 战斗/历史题材必填 | 不画残肢血浆；敌兵不给面部特写 |
+| `产出` | 定稿图 / 无字底图（附尺寸）/ 叠字脚本名 | `page-003.png` 1696×2544 |
+| `一致性校验` | 逐项打勾；偏差写明**保留还是重做**及原因 | 光头 ✓ … ⚠ P5 手里多一截断兵器（保留） |
+| `状态` | 待生成 / 已生成 / 待审 / 定稿 | 定稿 |
 
 ## 制作工作流
 
-1. **定角色**：`characters/NNN-slug/character.md` 填写完整 → 用 AI 图像生成 `avatar.png` → 状态置「头像已定」。
-2. **写分镜**：`pages/NNN-slug/meta.md` 填写场景/对白/出场/分镜 → 状态「待生成」。
-3. **生成页面**：引用该页出场角色的 `avatar.png` 与 `character.md` 生成 `page-NNN.png` → 状态「已生成」。
-4. **校验一致性**：逐格对照 `character.md` 的一致性锚点，不符则重生成或修正提示词。
-5. **定稿推进**：状态「定稿」，更新 README 进度表，commit + push。
+细则（生图提示词四段模板、叠字脚本参数、坐标换算）见 `.qoder/skills/the-monk-storyboard/SKILL.md`，此处只列顺序。
+
+1. **定角色**：`characters/NNN-slug/character.md` 填写完整 → 生成 `avatar.png` → 状态置「头像已定」。此后所有页面把它当参考图传入。
+2. **写分镜**：`pages/NNN-slug/meta.md` 按上表填齐，**文字与画面分开写** → 状态「待生成」。
+3. **生成无字底图**：一次生图（2:3 竖版），提示词必须带「画面零文字」铁律与主角锚点；产物先落 `vibe_images/`。
+4. **叠字定稿**：写 `_make_page_NNN.py`，把原图 Lanczos 放大到 1696×2544 → 存 `page-NNN-clean.png` → 叠中文 → 存 `page-NNN.png`。
+5. **校验一致性（一次）**：对照 `character.md` 锚点逐项打勾写进 meta.md；偏差按硬规则 8 处理，不循环重生成。
+6. **定稿推进**：状态「定稿」，更新 README 进度表，commit + push。
+
+## 工具链
+
+- 生图：ImageGen，`size=1024x1536`；角色一致性靠把 `avatar.png` 作为参考图传入。
+- 中文：**绝不让生图模型直出汉字**（必乱码），一律 PIL 后叠。旁白/独白用楷体 `C:/Windows/Fonts/simkai.ttf`，拟声用粗黑 `C:/Windows/Fonts/msyhbd.ttc`；所有字带白描边（halo）才压得住网点。
+- 依赖：Python + Pillow（本机 12.3.0）。叠字脚本是幂等的——改 `TEXTS` 重跑即可，别回去重生成。
 
 ## Git 规则
 
 - 分支：`main`。改动完成且验证后提交推送（HTTPS，账号 `dmllpj46-ship-it`）。
 - 推送前 `git status --short` 检查：无 token/密钥、无意外文件。
-- 大二进制（PNG）是本仓库的正当产物，正常提交；不要提交临时脚本、缓存与日志。
+- 大二进制（PNG）是本仓库的正当产物，正常提交；不要提交临时脚本、缓存与日志——`_make_page_NNN.py`、`vibe_images/`、调试裁图均已在 `.gitignore` 中排除。

@@ -1,6 +1,8 @@
 # The Monk — 和尚的冒险
 
 > 用 AI 图像生成制作的**日式漫画**：一个拥有**法力**与**战力**的和尚的冒险故事。
+>
+> 在线阅读：<https://the-monk.pages.dev>（Cloudflare Pages，页面图直连本仓库 raw 链接）
 
 ## 项目定位
 
@@ -22,6 +24,7 @@ the-monk/
 ├── README.md            # 本文件：项目概览 + 进度
 ├── AGENTS.md            # 给 AI 智能体的工作守则
 ├── .qoder/skills/       # 仓库专用技能（分镜创作流程 the-monk-storyboard）
+├── site/                # 在线阅读站点（单文件静态页，部署到 Cloudflare Pages）
 ├── characters/          # 角色：每人一个编号子目录
 │   ├── _template/       # character.md 模板
 │   └── NNN-slug/

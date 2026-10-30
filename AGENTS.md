@@ -34,6 +34,7 @@ Guidance for AI agents working in this repository.
 | `pages/NNN-slug/meta.md` | 页面元数据 | 固定名 |
 | `pages/_template/meta.md` | 页面元数据模板 | 复制后改名填充 |
 | `.qoder/skills/the-monk-storyboard/` | 仓库专用技能：一页漫画的完整做法 | 固定名 |
+| `site/index.html` | 在线阅读站点（单文件静态页）；图片走 raw 链接，不含本地副本 | 部署到 Cloudflare Pages 项目 `the-monk` |
 | `vibe_images/` | 生图原图与调试裁图落盘处 | **不入库** |
 
 ## 元数据 schema

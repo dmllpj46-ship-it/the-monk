@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE MONK · 和尚的冒险</title>
+<meta name="description" content="一个拥有法力与战力的和尚的冒险故事。AI 生成的日式漫画，8 页。">
+<style>
+  :root {
+    --ink: #14120f;
+    --ink-soft: #2a2621;
+    --paper: #f2eee5;
+    --paper-deep: #e6e0d3;
+    --muted: #6f675b;
+    --line: rgba(20, 18, 15, .16);
+    --cinnabar: #b3352a;
+    --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "SimSun", Georgia, serif;
+    --sans: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(255,255,255,.9), transparent 42%),
+      radial-gradient(circle at 88% 0%, rgba(224,214,196,.55), transparent 38%);
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    backdrop-filter: blur(10px);
+    background: rgba(242, 238, 229, .82);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: 64px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .brand strong {
+    font-family: var(--serif);
+    font-size: 20px;
+    letter-spacing: .28em;
+  }
+
+  .brand span {
+    font-size: 12px;
+    letter-spacing: .2em;
+    color: var(--muted);
+  }
+
+  nav {
+    display: flex;
+    gap: 22px;
+    font-size: 13px;
+    letter-spacing: .12em;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--muted);
+    padding: 4px 0;
+    border-bottom: 1px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+
+  nav a:hover { color: var(--ink); border-color: var(--cinnabar); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 56px;
+    align-items: center;
+    padding: 76px 0 64px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: .34em;
+    color: var(--cinnabar);
+    margin: 0 0 18px;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 1.02;
+    letter-spacing: .06em;
+    margin: 0 0 6px;
+  }
+
+  .latin {
+    font-family: var(--serif);
+    font-size: 13px;
+    letter-spacing: .5em;
+    color: var(--muted);
+    margin: 0 0 26px;
+  }
+
+  .lede {
+    font-size: 16px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+    max-width: 34em;
+    margin: 0 0 20px;
+  }
+
+  .quote {
+    margin: 0 0 34px;
+    padding-left: 16px;
+    border-left: 2px solid var(--cinnabar);
+    font-family: var(--serif);
+    font-size: 19px;
+    letter-spacing: .08em;
+    color: var(--ink);
+  }
+
+  .stats {
+    display: flex;
+    gap: 36px;
+    border-top: 1px solid var(--line);
+    padding-top: 22px;
+  }
+
+  .stats div { display: flex; flex-direction: column; gap: 4px; }
+
+  .stats b {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .stats span {
+    font-size: 11px;
+    letter-spacing: .2em;
+    color: var(--muted);
+  }
+
+  .cover {
+    position: relative;
+    justify-self: end;
+    width: 100%;
+    max-width: 430px;
+  }
+
+  .cover img {
+    width: 100%;
+    display: block;
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -30px rgba(20,18,15,.55);
+  }
+
+  .cover figcaption {
+    margin-top: 12px;
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ---------- section head ---------- */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 26px 0 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-head h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    letter-spacing: .24em;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .section-head p {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: .16em;
+    color: var(--muted);
+  }
+
+  /* ---------- page grid ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px 22px;
+    padding-bottom: 72px;
+  }
+
+  .card {
+    all: unset;
+    cursor: pointer;
+    display: block;
+    position: relative;
+  }
+
+  .card .thumb {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 2 / 3;
+    background: var(--paper-deep);
+    border: 1px solid var(--line);
+  }
+
+  .card .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(6%);
+    transition: transform .5s cubic-bezier(.2,.7,.2,1), filter .4s;
+  }
+
+  .card:hover .thumb img,
+  .card:focus-visible .thumb img {
+    transform: scale(1.035);
+    filter: none;
+  }
+
+  .card .thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(20,18,15,.5), transparent 34%);
+    opacity: 0;
+    transition: opacity .35s;
+  }
+
+  .card:hover .thumb::after,
+  .card:focus-visible .thumb::after { opacity: 1; }
+
+  .card .no {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-family: var(--serif);
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: var(--paper);
+    background: rgba(20,18,15,.72);
+    padding: 4px 8px;
+  }
+
+  .card .tag {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 4px 8px;
+  }
+
+  .card h3 {
+    font-family: var(--serif);
+    font-size: 19px;
+    letter-spacing: .1em;
+    margin: 12px 0 4px;
+    font-weight: 600;
+  }
+
+  .card .where {
+    font-size: 12px;
+    letter-spacing: .08em;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .card:focus-visible .thumb { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
+
+  /* ---------- character ---------- */
+  .character {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 44px;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 54px 0;
+  }
+
+  .character img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--paper-deep);
+  }
+
+  .character h2 {
+    font-family: var(--serif);
+    font-size: 30px;
+    letter-spacing: .2em;
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+
+  .character .sub {
+    font-size: 12px;
+    letter-spacing: .22em;
+    color: var(--cinnabar);
+    margin: 0 0 20px;
+  }
+
+  .character p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.95;
+    color: var(--ink-soft);
+    max-width: 52em;
+  }
+
+  .anchors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .anchors li {
+    font-size: 12px;
+    letter-spacing: .1em;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    padding: 5px 10px;
+    background: rgba(255,255,255,.45);
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    justify-content: space-between;
+    padding: 34px 0 46px;
+    font-size: 12px;
+    letter-spacing: .1em;
+    color: var(--muted);
+  }
+
+  footer a { text-decoration: none; border-bottom: 1px solid var(--line); }
+  footer a:hover { color: var(--ink); border-color: var(--cinnabar); }
+
+  /* ---------- reader ---------- */
+  .reader {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: none;
+    background: rgba(14, 13, 11, .96);
+    padding: 24px;
+  }
+
+  .reader[open] { display: grid; grid-template-rows: auto 1fr auto; gap: 14px; }
+
+  .reader-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: #eae6dc;
+  }
+
+  .reader-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    letter-spacing: .14em;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    min-width: 0;
+  }
+
+  .reader-title em {
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: rgba(234,230,220,.55);
+    white-space: nowrap;
+  }
+
+  .reader-body {
+    position: relative;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reader-body img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border: 1px solid rgba(255,255,255,.14);
+    background: #0b0a09;
+  }
+
+  .nav-btn {
+    all: unset;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 76px;
+    display: grid;
+    place-items: center;
+    color: #eae6dc;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    font-size: 22px;
+    transition: background .2s;
+  }
+
+  .nav-btn:hover { background: rgba(255,255,255,.16); }
+  .nav-btn.prev { left: 0; }
+  .nav-btn.next { right: 0; }
+  .nav-btn:disabled { opacity: .22; cursor: default; }
+
+  .reader-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: rgba(234,230,220,.66);
+    font-size: 12px;
+    letter-spacing: .16em;
+  }
+
+  .reader-bottom button {
+    all: unset;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,.2);
+    padding: 8px 14px;
+    letter-spacing: .18em;
+    color: #eae6dc;
+  }
+
+  .reader-bottom button:hover { border-color: var(--cinnabar); color: #fff; }
+
+  .reader-note { max-width: 46ch; }
+
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 44px; }
+    .cover { justify-self: start; max-width: 340px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .character { grid-template-columns: 1fr; }
+    .character img { width: 160px; }
+  }
+
+  @media (max-width: 560px) {
+    .wrap { padding: 0 18px; }
+    nav { display: none; }
+    .grid { gap: 20px 14px; }
+    .card h3 { font-size: 16px; }
+    .stats { gap: 26px; }
+    .reader { padding: 12px; }
+    .nav-btn { width: 40px; height: 60px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">
+      <strong>THE MONK</strong>
+      <span>和尚的冒险</span>
+    </a>
+    <nav>
+      <a href="#pages">分镜</a>
+      <a href="#character">角色</a>
+      <a href="https://github.com/dmllpj46-ship-it/the-monk" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap hero">
+    <div>
+      <p class="eyebrow">卷首 · 第一话</p>
+      <h1>和尚的冒险</h1>
+      <p class="latin">A SILENT MONK WALKS THROUGH BLOOD, BEASTS AND STARS</p>
+      <p class="lede">
+        一个拥有法力与战力的和尚，从华北的焦土走到非洲的草原，从纽约的满街颜色走到广寒宫的废墟。
+        他不劝、不拦、不评判，只用一双空手，走完自己那一份因果。
+      </p>
+      <p class="quote">「因果自渡。」</p>
+      <div class="stats">
+        <div><b>8</b><span>页</span></div>
+        <div><b>1</b><span>角色</span></div>
+        <div><b>AI</b><span>生成</span></div>
+      </div>
+    </div>
+    <figure class="cover">
+      <img src="https://raw.githubusercontent.com/dmllpj46-ship-it/the-monk/main/pages/001-cover/page-001.png"
+           alt="封面：山门晨雾中的和尚" width="1696" height="2528" fetchpriority="high">
+      <figcaption><span>001 · 封面</span><span>山门晨雾</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap" id="pages">
+    <div class="section-head">
+      <h2>分镜</h2>
+      <p>点击任意一页进入阅读 · ← → 翻页 · Esc 退出</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="wrap character" id="character">
+    <img src="https://raw.githubusercontent.com/dmllpj46-ship-it/the-monk/main/characters/001-huiming/avatar.png"
+         alt="慧明头像" loading="lazy">
+    <div>
+      <h2>慧明</h2>
+      <p class="sub">云游僧人 / 主角 · 四十岁</p>
+      <p>
+        寡言、果断，慈悲但有底线。徒手近身，以「金刚手印」运功，掌力刚猛；
+        法力与战力是同一个出口。不持兵器，只带一串佛珠和一身旧疤。
+      </p>
+      <ul class="anchors">
+        <li>光头</li>
+        <li>眉心一点朱砂</li>
+        <li>画面左侧眉上旧疤</li>
+        <li>灰僧袍 · 袈裟缠腰</li>
+        <li>草鞋</li>
+        <li>腕上佛珠</li>
+        <li>双手空空</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>THE MONK · 全部画面由 AI 生成，中文不上画面。</span>
+  <span>
+    <a href="https://github.com/dmllpj46-ship-it/the-monk" target="_blank" rel="noopener">源仓库</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/dmllpj46-ship-it/the-monk/tree/main/pages" target="_blank" rel="noopener">页面原始文件</a>
+  </span>
+</footer>
+
+<div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="页面阅读器">
+  <div class="reader-top">
+    <div class="reader-title">
+      <span id="readerNo">001</span>
+      <span id="readerName">封面</span>
+      <em id="readerWhere">卷首 · 山门晨雾</em>
+    </div>
+    <span id="readerTag" style="font-size:11px;letter-spacing:.18em;color:rgba(234,230,220,.5)"></span>
+  </div>
+  <div class="reader-body">
+    <button class="nav-btn prev" id="prev" aria-label="上一页">‹</button>
+    <img id="readerImg" alt="">
+    <button class="nav-btn next" id="next" aria-label="下一页">›</button>
+  </div>
+  <div class="reader-bottom">
+    <span id="counter">1 / 8</span>
+    <span class="reader-note" id="note"></span>
+    <button id="close">关闭 · Esc</button>
+  </div>
+</div>
+
+<script>
+  const BASE = "https://raw.githubusercontent.com/dmllpj46-ship-it/the-monk/main/";
+  const PAGES = [
+    { no: "001", slug: "001-cover", name: "封面", where: "卷首 · 山门晨雾", tag: "封面",
+      note: "THE MONK 题名，朱砂红「因果自渡。」" },
+    { no: "002", slug: "002-stone-birth", name: "石中僧", where: "第一章 · 出世", tag: "分镜",
+      note: "荒山石爆，僧从中出，望塔，下山。" },
+    { no: "003", slug: "003-battlefield", name: "白骨下的经轮", where: "民国二十六年 · 晋北", tag: "战斗",
+      note: "徒手接刃，金刚手印；不杀之戒立于此。" },
+    { no: "004", slug: "004-savanna-retreat", name: "草木禅", where: "民国二十七年 · 塞伦盖蒂", tag: "转场",
+      note: "虎豹狼虫不怕他——这或许就是他要的赎。" },
+    { no: "005", slug: "005-europe-riot", name: "隔岸观火", where: "民国二十七年冬 · 欧洲老城", tag: "分镜",
+      note: "火、烟花、人群。他不劝，不拦，不出手。" },
+    { no: "006", slug: "006-rainbow-parade", name: "满街颜色", where: "民国二十八年夏 · 纽约", tag: "彩页",
+      note: "全系列唯一彩页：城市黑白，只有游行的颜色。" },
+    { no: "007", slug: "007-moon-palace-ruins", name: "广寒残宫", where: "无年代 · 月面", tag: "分镜",
+      note: "连神话都塌了。没有妖，没有敌人，也没有可渡的人。" },
+    { no: "008", slug: "008-black-hole-guanyin", name: "光环", where: "无年代 · 事件视界之外", tag: "分镜",
+      note: "黑洞前观音显圣，光环作背光；无对白，只让光落下。" }
+  ];
+
+  const url = p => `${BASE}pages/${p.slug}/page-${p.no}.png`;
+  const grid = document.getElementById("grid");
+
+  PAGES.forEach((p, i) => {
+    const card = document.createElement("button");
+    card.className = "card";
+    card.type = "button";
+    card.setAttribute("aria-label", `阅读第 ${p.no} 页 ${p.name}`);
+    card.innerHTML = `
+      <div class="thumb">
+        <img src="${url(p)}" alt="${p.no} ${p.name}" loading="lazy" decoding="async">
+        <span class="no">${p.no}</span>
+        <span class="tag">${p.tag}</span>
+      </div>
+      <h3>${p.name}</h3>
+      <p class="where">${p.where}</p>`;
+    card.addEventListener("click", () => open(i));
+    grid.appendChild(card);
+  });
+
+  const reader = document.getElementById("reader");
+  const img = document.getElementById("readerImg");
+  const elNo = document.getElementById("readerNo");
+  const elName = document.getElementById("readerName");
+  const elWhere = document.getElementById("readerWhere");
+  const elTag = document.getElementById("readerTag");
+  const elCounter = document.getElementById("counter");
+  const elNote = document.getElementById("note");
+  const btnPrev = document.getElementById("prev");
+  const btnNext = document.getElementById("next");
+  const btnClose = document.getElementById("close");
+  let index = 0;
+  let lastFocus = null;
+
+  function render() {
+    const p = PAGES[index];
+    img.src = url(p);
+    img.alt = `${p.no} ${p.name}`;
+    elNo.textContent = p.no;
+    elName.textContent = p.name;
+    elWhere.textContent = p.where;
+    elTag.textContent = p.tag;
+    elCounter.textContent = `${index + 1} / ${PAGES.length}`;
+    elNote.textContent = p.note;
+    btnPrev.disabled = index === 0;
+    btnNext.disabled = index === PAGES.length - 1;
+  }
+
+  function open(i) {
+    index = i;
+    lastFocus = document.activeElement;
+    render();
+    reader.setAttribute("open", "");
+    document.body.style.overflow = "hidden";
+    btnClose.focus();
+  }
+
+  function close() {
+    reader.removeAttribute("open");
+    document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus();
+  }
+
+  function step(delta) {
+    const next = index + delta;
+    if (next < 0 || next >= PAGES.length) return;
+    index = next;
+    render();
+  }
+
+  btnPrev.addEventListener("click", () => step(-1));
+  btnNext.addEventListener("click", () => step(1));
+  btnClose.addEventListener("click", close);
+  reader.addEventListener("click", e => { if (e.target === reader) close(); });
+
+  document.addEventListener("keydown", e => {
+    if (!reader.hasAttribute("open")) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  });
+</script>
+</body>
+</html>

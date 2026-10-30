@@ -8,6 +8,9 @@ __pycache__/
 Thumbs.db
 .DS_Store
 
+# 临时工作文件（叠字脚本、坐标网格调试图等），见 AGENTS.md「不提交临时脚本」
+/_*
+
 # 密钥与凭据（绝不提交）
 *.pem
 *.key

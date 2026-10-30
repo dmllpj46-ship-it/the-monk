@@ -1,0 +1,16 @@
+# 常规忽略
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+*.log
+Thumbs.db
+.DS_Store
+
+# 密钥与凭据（绝不提交）
+*.pem
+*.key
+*id_rsa*
+*id_ed25519*
+*token*

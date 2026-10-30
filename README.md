@@ -5,7 +5,7 @@
 ## 项目定位
 
 - 目标产物：日式漫画（默认黑白线稿风，可按需切换彩色）。
-- 生产方式：AI 图像生成（QwenWork 图像管线，实际模型 `banana-image-2`）逐页生成，人工/智能体协同编辑；页面中文一律后叠，不由生图模型直出。
+- 生产方式：AI 图像生成（QwenWork 图像管线，实际模型 `banana-image-2`）逐页生成，人工/智能体协同编辑；页面为**纯图片**，画面上不出现任何文字。
 - 代码托管：GitHub 公开仓库（账号 `dmllpj46-ship-it`，HTTPS 推送）。
 
 ## 故事设定
@@ -30,9 +30,8 @@ the-monk/
 └── pages/               # 漫画页：每页一个编号子目录
     ├── _template/       # meta.md 模板
     └── NNN-slug/
-        ├── page-NNN.png        # 页面图像（定稿，已叠字）
-        ├── page-NNN-clean.png  # 无字底图（改文案只重跑叠字，不重新生图）
-        └── meta.md             # 页面元数据（场景/对白/出场/状态）
+        ├── page-NNN.png        # 页面图像（纯图，画面上不出现任何文字）
+        └── meta.md             # 页面元数据（场景/分镜/出场/状态）
 ```
 
 ## 命名与编号规则
@@ -48,19 +47,19 @@ the-monk/
 ## 元数据字段
 
 - `character.md`：角色编号、法号/姓名、身份、外貌、服装、法力、战力、性格、口头禅、配色、生成提示词锚点、状态。
-- `meta.md`：页号、类型（封面/分镜）、场景、时间地点、出场角色、对白、动作分镜、叙事节点、状态（待生成 / 已生成 / 待审 / 定稿）。
+- `meta.md`：页号、类型（封面/分镜）、场景、时间地点、出场角色、动作分镜、叙事节点、状态（待生成 / 已生成 / 待审 / 定稿）。
 
 详细 schema 见 `AGENTS.md` 与各 `_template/`。
 
 ## 制作工作流
 
 1. 定角色 → 建 `characters/NNN-slug/`，写 `character.md`，生成 `avatar.png`（此后所有画面引用它保证一致性）。
-2. 写分镜 → 建 `pages/NNN-slug/meta.md`，写明场景、对白、出场角色、镜头。
-3. 生成页面 → 按 `meta.md` 与角色设定生成 `page-NNN.png`。
+2. 写分镜 → 建 `pages/NNN-slug/meta.md`，写明场景、出场角色、镜头、叙事节点。
+3. 生成页面 → 按 `meta.md` 与角色设定一次出图，Lanczos 放大到 1696×2544 存为 `page-NNN.png`（纯图，不叠字）。
 4. 校验一致性 → 对照 `character.md` 核对外貌/服装/能力。
 5. 更新进度 → 回填 README 进度表，提交推送。
 
-> 以上五步的细则（分镜写法、生图提示词四段模板、PIL 叠字脚本、一次性一致性校验）见仓库专用技能
+> 以上五步的细则（分镜写法、生图提示词四段模板、纯图定稿、一次性一致性校验）见仓库专用技能
 > [`.qoder/skills/the-monk-storyboard/SKILL.md`](file:///C:/Users/WaterZhong/REPOS-LOCAL/the-monk/.qoder/skills/the-monk-storyboard/SKILL.md)。
 
 ## 当前进度
@@ -71,9 +70,10 @@ the-monk/
 | 页面：001 封面 | 定稿（THE MONK + 朱砂红「因果自渡。」） |
 | 页面：002 石中僧 | 定稿（主角不设禅杖，本页空手即正确画法） |
 | 页面：003 白骨下的经轮 | 定稿（1937·晋北，徒手接刃 + 金刚手印；P5 背影手里多一截断兵器，已知偏差） |
+| 页面：004 草木禅 | 定稿（东非草原·旱季，虎豹狼虫为伴；首个纯图页，无叠加文字） |
 
 ## 工具链
 
 - 图像生成：QwenWork 图像管线（实际出图模型 `banana-image-2`）。角色一致性靠把 `avatar.png` 作为参考图传入 `mode=edit`。
-- 页面中文：生图阶段一律要求**画面零文字**，再用 PIL 叠字（旁白/独白用楷体 `simkai`，拟声用粗黑 `msyhbd`）——AI 直接生成中文必乱码。
+- 页面文字：**页面是纯图片，不叠任何文字**。提示词里显式排除 letters / speech balloons / SFX typography，连白框也不要。
 - 仓库操作：`git` over HTTPS（账号 `dmllpj46-ship-it`）。
